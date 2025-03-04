@@ -13,6 +13,7 @@ public class CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
+    @Version
     private int versionNum;
     private String createdBy;
     private LocalDateTime creationDate;
