@@ -8,10 +8,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -140,5 +142,9 @@ public class CustomerService {
                     "Customer is already an owner of this account"
             );
         }
+    }
+
+    public List<Customer> findAll(String searchTerm, Pageable pageable) {
+        return customerRepository.findBySearchTerm(searchTerm, pageable);
     }
 }
