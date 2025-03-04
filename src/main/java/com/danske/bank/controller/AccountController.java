@@ -4,6 +4,7 @@ import com.danske.bank.dto.CustomerRequestDto;
 import com.danske.bank.dto.CustomerResponseDto;
 import com.danske.bank.mapper.CustomerMapper;
 import com.danske.bank.service.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,10 +22,18 @@ public class AccountController {
     @PostMapping("/account")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    ResponseEntity<CustomerResponseDto> postCustomer(@RequestBody CustomerRequestDto customerDto) {
+    ResponseEntity<CustomerResponseDto> postCustomer(@Valid @RequestBody CustomerRequestDto customerDto) {
 
         return new ResponseEntity<>(
                 CustomerMapper.toDto(customerService.createCustomer(CustomerMapper.toEntity(customerDto))),
+                HttpStatusCode.valueOf(CREATED.value()));
+    }
+
+    @PutMapping("/account/{id}")
+    ResponseEntity<CustomerResponseDto> updateMessage(@Valid @RequestBody CustomerRequestDto newCustomerDto,
+                                                      @PathVariable Long id) {
+        return new ResponseEntity<>(
+                CustomerMapper.toDto(customerService.updateCustomer(CustomerMapper.toEntity(newCustomerDto, id))),
                 HttpStatusCode.valueOf(CREATED.value()));
     }
 }

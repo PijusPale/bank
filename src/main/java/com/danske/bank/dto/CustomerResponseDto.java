@@ -22,8 +22,8 @@ public class CustomerResponseDto {
     String phoneNumber;
     @JsonProperty("email")
     String email;
-    @JsonProperty("accounts")
-    List<AccountResponseDto> accounts;
+    @JsonProperty("accountId")
+    Long accountId;
     @JsonProperty("addresses")
     List<AddressResponseDto> addresses;
 

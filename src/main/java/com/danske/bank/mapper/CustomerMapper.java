@@ -4,6 +4,7 @@ import com.danske.bank.dto.*;
 import com.danske.bank.entity.Account;
 import com.danske.bank.entity.Address;
 import com.danske.bank.entity.Customer;
+import jakarta.annotation.Nonnull;
 
 public class CustomerMapper {
     public static CustomerResponseDto toDto(Customer customer) {
@@ -14,7 +15,7 @@ public class CustomerMapper {
                 .lastname(customer.getLastname())
                 .phoneNumber(customer.getPhoneNumber())
                 .email(customer.getEmail())
-                .accounts(customer.getAccounts().stream().map(CustomerMapper::toDto).toList())
+                .accountId(customer.getAccount().getId())
                 .addresses(customer.getAddresses().stream().map(CustomerMapper::toDto).toList())
                 .build();
     }
@@ -27,14 +28,21 @@ public class CustomerMapper {
                 .phoneNumber(customer.getPhoneNumber())
                 .email(customer.getEmail())
                 .addresses(customer.getAddresses().stream().map(CustomerMapper::toEntity).toList())
-                .accounts(customer.getAccountIds().stream().map(CustomerMapper::toEntity).toList())
+                .account(Account.builder().id(customer.getAccountId()).build())
                 .build();
     }
 
-    public static AccountResponseDto toDto(Account account) {
-        return AccountResponseDto.builder()
-                .id(account.getId())
-                .numberOfOwners(account.getNumberOfOwners())
+    public static Customer toEntity(@Nonnull CustomerRequestDto customer,
+                                    @Nonnull Long customerId) {
+        return Customer.builder()
+                .id(customerId)
+                .name(customer.getName())
+                .customerType(customer.getCustomerType())
+                .lastname(customer.getLastname())
+                .phoneNumber(customer.getPhoneNumber())
+                .email(customer.getEmail())
+                .addresses(customer.getAddresses().stream().map(CustomerMapper::toEntity).toList())
+                .account(Account.builder().id(customer.getAccountId()).build())
                 .build();
     }
 
@@ -47,12 +55,9 @@ public class CustomerMapper {
                 .build();
     }
 
-    public static Account toEntity(Long accountId) {
-        return Account.builder().id(accountId).build();
-    }
-
     public static Address toEntity(AddressRequestDto addressDto) {
-        return Address.builder().country(addressDto.getCountry())
+        return Address.builder()
+                .country(addressDto.getCountry())
                 .addressLine(addressDto.getAddressLine())
                 .zipCode(addressDto.getZipCode())
                 .build();
