@@ -8,6 +8,7 @@ import lombok.NonNull;
 @Getter
 public class AddressRequestDto {
 
+    private final Long id;
     @NonNull
     private final String country;
     private final String addressLine;

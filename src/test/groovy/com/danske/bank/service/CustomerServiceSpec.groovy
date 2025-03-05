@@ -115,11 +115,7 @@ class CustomerServiceSpec extends Specification {
         1 * accountService.updateAccount(newAccountEntity, 1)
         1 * accountService.updateAccount(oldAccountEntity, -1)
         1 * customerRepository.save(oldCustomerEntity) >> oldCustomerEntity
-        1 * addressService.findAllByCustomerId(NEW_CUSTOMER_ID) >> List.of(ADDRESS_ID)
-
-        newCustomerEntity.getAddresses().forEach {
-            1 * addressService.createAddress(it, NEW_CUSTOMER_ID)
-        }
+        1 * addressService.updateAddresses(oldCustomerEntity.getAddresses())
 
         noExceptionThrown()
     }
@@ -134,12 +130,8 @@ class CustomerServiceSpec extends Specification {
         0 * accountService.getAccountById(OLD_ACCOUNT_ID) >> Optional.of(oldAccountEntity)
         0 * accountService.updateAccount(newAccountEntity, 1)
         0 * accountService.updateAccount(oldAccountEntity, -1)
-        1 * customerRepository.save(newCustomerEntity) >> newCustomerEntity
-        1 * addressService.findAllByCustomerId(NEW_CUSTOMER_ID) >> List.of(ADDRESS_ID)
-
-        newCustomerEntity.getAddresses().forEach {
-            1 * addressService.createAddress(it, NEW_CUSTOMER_ID)
-        }
+        1 * customerRepository.save(newCustomerEntity) >> oldCustomerEntity
+        1 * addressService.updateAddresses(oldCustomerEntity.getAddresses())
 
         noExceptionThrown()
     }

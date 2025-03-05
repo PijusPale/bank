@@ -90,11 +90,7 @@ public class CustomerService {
             throw ex;
         }
 
-        var addressIds = addressService.findAllByCustomerId(existingCustomer.getId());
-        addressService.deleteAddresses(addressIds);
-
-        customer.getAddresses().forEach(address ->
-                addressService.createAddress(address, customer.getId()));
+        addressService.updateAddresses(customer.getAddresses());
 
         return updatedCustomer;
     }

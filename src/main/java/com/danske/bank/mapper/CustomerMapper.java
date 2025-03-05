@@ -57,6 +57,7 @@ public class CustomerMapper {
 
     public static Address toEntity(AddressRequestDto addressDto) {
         return Address.builder()
+                .id(addressDto.getId())
                 .country(addressDto.getCountry())
                 .addressLine(addressDto.getAddressLine())
                 .zipCode(addressDto.getZipCode())

@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    @Query(nativeQuery = true, value = "SELECT ad.id " +
+    @Query(nativeQuery = true, value = "SELECT ad.* " +
             "FROM address ad " +
             "WHERE ad.customer_Id = :customerId")
-    List<Long> findAllByCustomerId(@Param("customerId") Long customerId);
+    List<Address> findAllByCustomerId(@Param("customerId") Long customerId);
 }
