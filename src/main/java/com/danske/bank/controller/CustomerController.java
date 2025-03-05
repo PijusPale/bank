@@ -33,10 +33,10 @@ public class CustomerController {
     }
 
     @PutMapping("/customer/{id}")
-    ResponseEntity<CustomerResponseDto> updateCustomer(@Valid @RequestBody CustomerRequestDto newCustomerDto,
+    ResponseEntity<CustomerResponseDto> updateCustomer(@Valid @RequestBody CustomerRequestDto customerDto,
                                                        @PathVariable Long id) {
         return new ResponseEntity<>(
-                CustomerMapper.toDto(customerService.updateCustomer(CustomerMapper.toEntity(newCustomerDto, id))),
+                CustomerMapper.toDto(customerService.updateCustomer(CustomerMapper.toEntity(customerDto, id))),
                 HttpStatusCode.valueOf(CREATED.value()));
     }
 

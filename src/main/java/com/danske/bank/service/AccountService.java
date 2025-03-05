@@ -19,15 +19,16 @@ public class AccountService {
     public Optional<Account> getAccountById(Long accountId) {
         return accountRepository.findById(accountId);
     }
+
     @Transactional
-    public void updateAccount(@Nonnull Account sourceAccount,
-                              int increment) {
-        Account account = accountRepository.findById(sourceAccount.getId())
+    public Account updateAccount(@Nonnull Account sourceAccount,
+                                 int increment) {
+        Account existingAccount = accountRepository.findById(sourceAccount.getId())
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found")
                 );
 
-        account.setNumberOfOwners(account.getNumberOfOwners() + increment);
-        accountRepository.save(account);
+        existingAccount.setNumberOfOwners(existingAccount.getNumberOfOwners() + increment);
+        return accountRepository.save(existingAccount);
     }
 }

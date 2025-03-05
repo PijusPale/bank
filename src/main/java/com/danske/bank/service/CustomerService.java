@@ -5,6 +5,7 @@ import com.danske.bank.repository.CustomerRepository;
 import com.danske.bank.entity.Customer;
 import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +26,7 @@ public class CustomerService {
     private final AddressService addressService;
 
     @Transactional
-    public Customer createCustomer(Customer customer) {
+    public Customer createCustomer(@NonNull Customer customer) {
         var accountId = customer.getAccount().getId();
         var maybeAccount = accountService.getAccountById(accountId);
         var account = validateAccount(maybeAccount);
@@ -98,6 +99,10 @@ public class CustomerService {
         return updatedCustomer;
     }
 
+    public List<Customer> findAll(String searchTerm, Pageable pageable) {
+        return customerRepository.findBySearchTerm(searchTerm, pageable);
+    }
+
     private Customer mergeCustomers(Customer existingCustomer, Customer customer) {
         existingCustomer.setCustomerType(customer.getCustomerType());
         existingCustomer.setName(customer.getName());
@@ -142,9 +147,5 @@ public class CustomerService {
                     "Customer is already an owner of this account"
             );
         }
-    }
-
-    public List<Customer> findAll(String searchTerm, Pageable pageable) {
-        return customerRepository.findBySearchTerm(searchTerm, pageable);
     }
 }

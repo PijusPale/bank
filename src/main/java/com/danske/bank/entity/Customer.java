@@ -43,6 +43,9 @@ public class Customer extends CommonEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(getName(), customer.getName()) && Objects.equals(getLastname(), customer.getLastname()) && Objects.equals(getPhoneNumber(), customer.getPhoneNumber()) && Objects.equals(getEmail(), customer.getEmail());
+        return Objects.equals(getName(), customer.getName())
+                && Objects.equals(getLastname(), customer.getLastname())
+                && Objects.equals(getPhoneNumber(), customer.getPhoneNumber())
+                && Objects.equals(getEmail(), customer.getEmail());
     }
 }
